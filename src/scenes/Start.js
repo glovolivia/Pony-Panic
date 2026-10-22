@@ -16,6 +16,10 @@ export class Start extends Phaser.Scene {
         this.load.image('health', 'assets/UI Elements/heart_full.png');
         //score
         this.load.image('score', 'assets/UI Elements/buttonLong_brown.png');
+
+        
+        //Bullets - cookies
+        this.load.image('bullet', 'assets/UI Elements/meteorBrown_big4.png');
         
         
     }
@@ -83,6 +87,7 @@ export class Start extends Phaser.Scene {
             //shooting
             if (Phaser.Input.Keyboard.JustDown(this.cursor.space)) {
                 //console.log("shoot shoot");
+                this.bullet = this.physics.add.sprite(this.pony.x,this.pony.y - 80, 'bullet').setScale(0.3);
                 this.tweens.add({
                     targets: this.pony,
                     scaleX: 1.12,
@@ -91,6 +96,8 @@ export class Start extends Phaser.Scene {
                     ease: 'Sine.easeOut',
                     yoyo: true
                 });
+
+                
             }
         }
 
