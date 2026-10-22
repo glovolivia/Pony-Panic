@@ -1,3 +1,3 @@
-# :horse_face: Pony Panic
+# 🐴 Pony Panic
 
 #### Currently in development
