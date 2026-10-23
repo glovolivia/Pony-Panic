@@ -1,3 +1,5 @@
+import { Bullet } from "../gameObjects/bullet.js";
+
 export class Start extends Phaser.Scene {
 
     constructor() {
@@ -13,7 +15,7 @@ export class Start extends Phaser.Scene {
 
         //UI
         //health
-        this.load.image('health', 'assets/UI Elements/heart_full.png');
+        this.load.image('heart', 'assets/UI Elements/heart_full.png');
         //score
         this.load.image('score', 'assets/UI Elements/buttonLong_brown.png');
 
@@ -26,12 +28,13 @@ export class Start extends Phaser.Scene {
 
     create() {
         this.add.image(640,360, 'background').setDisplaySize(1280,720);
-        this.pony = this.physics.add.sprite(640,580, 'pony');
+        this.pony = this.physics.add.sprite(640,580, 'pony').setScale(0.7);
         
         //pony
         this.pony.setCollideWorldBounds(true);
         this.pony.body.setAllowGravity(false);
         this.isBouncing = false;
+        this.isShooting = false;
 
         this.cursor = this.input.keyboard.createCursorKeys();
 
@@ -48,8 +51,9 @@ export class Start extends Phaser.Scene {
         this.health = 3;
         this.hearts = [];
 
+        this.textures.get('heart').setFilter(Phaser.Textures.FilterMode.NEAREST);
         for (var i = 0; i < 3; i++) {
-            const heart = this.add.image(40 + (i * 50),40, 'health').setScale(3,3);
+            const heart = this.add.image(40 + (i * 50),40, 'heart').setScale(3,3);
             this.hearts.push(heart);
         }
 
@@ -87,15 +91,22 @@ export class Start extends Phaser.Scene {
             //shooting
             if (Phaser.Input.Keyboard.JustDown(this.cursor.space)) {
                 //console.log("shoot shoot");
-                this.bullet = this.physics.add.sprite(this.pony.x,this.pony.y - 80, 'bullet').setScale(0.3);
-                this.tweens.add({
-                    targets: this.pony,
-                    scaleX: 1.12,
-                    scaleY: 0.70,
-                    duration: 85,
-                    ease: 'Sine.easeOut',
-                    yoyo: true
-                });
+                //spawn bullet using new 
+                this.bullet = new Bullet(this, this.pony.x, this.pony.y-40);
+                if(!this.isShooting) {
+                    this.isShooting = true;
+                    this.tweens.add({
+                        targets: this.pony,
+                        scaleX: 0.92,
+                        scaleY: 0.50,
+                        duration: 80,
+                        ease: 'Sine.easeOut',
+                        yoyo: true,
+                        onComplete: () => {
+                            this.isShooting = false;
+                        }
+                    });
+                }
 
                 
             }
@@ -104,18 +115,18 @@ export class Start extends Phaser.Scene {
         if (this.pony.body.blocked.left && !this.isBouncing) {
             this.isBouncing = true;
             this.pony.setVelocityX(0);
-            this.pony.setVelocityX(300)
+            this.pony.setVelocityX(250)
             this.tweens.add({
             targets: this.pony,
-            scaleX: 0.8,
-            scaleY: 1.10,
-            duration: 200,
+            scaleX: 0.5,
+            scaleY: 0.80,
+            duration: 150,
             ease: 'Back.easeOut',
             onComplete: () => {
                 this.tweens.add({
                     targets: this.pony,
-                    scaleX: 1,
-                    scaleY: 1,
+                    scaleX: 0.7,
+                    scaleY: 0.7,
                     duration: 100,
                     ease: 'Sine.easeOut',
                     onComplete: () => {
@@ -128,18 +139,18 @@ export class Start extends Phaser.Scene {
         } else if (this.pony.body.blocked.right && !this.isBouncing) {
             this.isBouncing = true;
             this.pony.setVelocityX(0);
-            this.pony.setVelocityX(-300)
+            this.pony.setVelocityX(-250)
             this.tweens.add({
             targets: this.pony,
-            scaleX: 0.8,
-            scaleY: 1.10,
-            duration: 200,
+            scaleX: 0.5,
+            scaleY: 0.80,
+            duration: 150,
             ease: 'Back.easeOut',
             onComplete: () => {
                 this.tweens.add({
                     targets: this.pony,
-                    scaleX: 1,
-                    scaleY: 1,
+                    scaleX: 0.7,
+                    scaleY: 0.7,
                     duration: 100,
                     ease: 'Sine.easeOut',
                     onComplete: () => {

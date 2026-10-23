@@ -1,24 +1,25 @@
 export class Bullet extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, direction, speed, damage){
-         super(scene, x, y, "projectile");
-         scene.add.existing(this);
-         scene.physics.add.existing(this);
-         this.direction = Phaser.Math.DegToRad(direction);
-         
-         this.scene = scene;
-         this.last_time = this.scene.time.now;
-         this.speed = speed;
-         this.damage = damage;
-         this.scene.time.delayedCall(10000, () => this.destroy());
+    constructor(scene, x, y) {
+        super(scene, x, y, 'bullet');
+        scene.add.existing(this);
+        scene.physics.add.existing(this);
+        this.setScale(0.3);
+
+        this.body.setVelocityY(-300);
+        this.body.setCollideWorldBounds(false);
+
+        if (this.y < 0) {
+            this.destroy();
+            console.log("destroyed bullet");
+        }
     }
 
-    preUpdate(time)
-    {
-        let dt = (time - this.last_time)/1000;
-        this.last_time = time;
+    preUpdate(time, delta) {
+        super.preUpdate(time, delta);
 
-        this.x += Math.cos(this.direction)*this.speed*dt;
-        this.y += Math.sin(this.direction)*this.speed*dt;
-        this.rotation += 15*dt;
+        if (this.y < 0) {
+            this.destroy();
+            console.log("destroyed bullet");
+        }
     }
 }
