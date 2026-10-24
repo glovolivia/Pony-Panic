@@ -27,6 +27,8 @@ export class Start extends Phaser.Scene {
         //Enemies
         //Zebra
         this.load.image('zebra', 'assets/Animals/zebra.png');
+        //explosion
+        this.load.image('crumb', 'assets/UI Elements/buttonRound_grey.png');
         
         
     }
@@ -98,7 +100,7 @@ export class Start extends Phaser.Scene {
 
         for (var i = 0; i < 6; i++) {
             for(var j = 0; j < 2; j++) {
-                this.zebra = new Enemy(this, 150 + (i*200), 170 + (j * 150), 'zebra', 3, 0.75, null);
+                this.zebra = new Enemy(this, 150 + (i*200), 170 + (j * 150), 'zebra', 3, 0.75,[0x857e7e, 0x414040], null);
                 this.enemies.add(this.zebra);
             }
         }
@@ -112,7 +114,10 @@ export class Start extends Phaser.Scene {
         if(enemy.health <= 0) {
             enemy.explode();
             //console.log("why");
+            this.score += 40;
         }
+        this.score += 10;
+        this.scoreText.setText(String(this.score).padStart(5, '0'));
     }
 
     update() {
