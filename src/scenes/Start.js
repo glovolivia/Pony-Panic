@@ -1,4 +1,5 @@
 import { Bullet } from "../gameObjects/bullet.js";
+import { Enemy } from "../gameObjects/enemy.js";
 
 export class Start extends Phaser.Scene {
 
@@ -22,24 +23,43 @@ export class Start extends Phaser.Scene {
         
         //Bullets - cookies
         this.load.image('bullet', 'assets/UI Elements/meteorBrown_big4.png');
+
+        //Enemies
+        //Zebra
+        this.load.image('zebra', 'assets/Animals/zebra.png');
         
         
     }
 
     create() {
+        //Background
         this.add.image(640,360, 'background').setDisplaySize(1280,720);
-        this.pony = this.physics.add.sprite(640,580, 'pony').setScale(0.7);
         
+        //Collision
+        this.bullets = this.add.group();
+        this.enemies = this.add.group();
+
+        this.physics.add.overlap(this.bullets, this.enemies, this.hitCallBack, null, this);
+
         //pony
+        this.pony = this.physics.add.sprite(640,580, 'pony').setScale(0.7);
         this.pony.setCollideWorldBounds(true);
         this.pony.body.setAllowGravity(false);
         this.isBouncing = false;
         this.isShooting = false;
+        //idle pony
+        this.idleTween = this.tweens.add({
+            targets: this.pony,
+            scaleY: 0.72,
+            duration: 400,
+            ease: 'Sine.easeOut',
+            yoyo: true,
+            repeat: -1
+        });
 
-        this.cursor = this.input.keyboard.createCursorKeys();
 
         //UI - cursor 
-
+        this.cursor = this.input.keyboard.createCursorKeys();
         this.input.setDefaultCursor('url("assets/UI Elements/cursorGauntlet_bronze.png") 0 0, auto');
 
         this.input.on('pointerdown', (pointer) => { this.input.setDefaultCursor('url("assets/UI Elements/cursorGauntlet_bronze-click.png") 0 0, auto');
@@ -68,14 +88,37 @@ export class Start extends Phaser.Scene {
             strokeThickness: 4
         }).setOrigin(0.4, 0);
         
-
+        //Waves
+        this.spawnWave();
+        this.wavePending = false;
 
     }
 
-    update() {
+    spawnWave() {
 
+        for (var i = 0; i < 6; i++) {
+            for(var j = 0; j < 2; j++) {
+                this.zebra = new Enemy(this, 150 + (i*200), 170 + (j * 150), 'zebra', 3, 0.75, null);
+                this.enemies.add(this.zebra);
+            }
+        }
+    }
+
+    hitCallBack(bullet, enemy) {
+        enemy.takeHit();
+        bullet.destroy();
+        enemy.health -= 1;
+        console.log(enemy.health);
+        if(enemy.health <= 0) {
+            enemy.explode();
+            //console.log("why");
+        }
+    }
+
+    update() {
         const speed = 500;
-        
+
+
         //movement 
         if (!this.isBouncing) {
             if (this.cursor.left.isDown) {
@@ -93,6 +136,7 @@ export class Start extends Phaser.Scene {
                 //console.log("shoot shoot");
                 //spawn bullet using new 
                 this.bullet = new Bullet(this, this.pony.x, this.pony.y-40);
+                this.bullets.add(this.bullet);
                 if(!this.isShooting) {
                     this.isShooting = true;
                     this.tweens.add({
@@ -158,6 +202,14 @@ export class Start extends Phaser.Scene {
                     }
                     })
                 }
+            });
+        }
+
+        if(this.enemies.getLength() == 0 && !this.wavePending) {
+            this.wavePending = true;
+            this.time.delayedCall(2000, () => {
+                this.spawnWave();
+                this.wavePending = false;
             });
         }
     }
