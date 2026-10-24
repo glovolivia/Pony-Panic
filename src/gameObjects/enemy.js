@@ -1,3 +1,4 @@
+import { Poop } from "./poop.js";
 
 export class Enemy extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, health, scale, particleTint, path=null) {
@@ -20,6 +21,17 @@ export class Enemy extends Phaser.GameObjects.Sprite {
             ease: 'Back.easeOut',
         });
 
+        this.pooping();
+
+    }
+
+    pooping() {
+        this.poopTimer = this.scene.time.delayedCall(Phaser.Math.Between(1000, 9000), () => {
+            const poop = new Poop(this.scene, this.x, this.y + 50)
+            this.scene.poops.add(poop);
+
+            this.pooping();
+        });
     }
 
     takeHit() {
@@ -63,6 +75,7 @@ export class Enemy extends Phaser.GameObjects.Sprite {
             });
         }
         
+        this.poopTimer.remove();
         this.destroy();
     }
 
@@ -89,4 +102,6 @@ export class Enemy extends Phaser.GameObjects.Sprite {
             });
         }
     }
+
+
 }

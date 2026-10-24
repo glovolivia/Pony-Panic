@@ -1,5 +1,6 @@
 import { Bullet } from "../gameObjects/bullet.js";
 import { Enemy } from "../gameObjects/enemy.js";
+import { Poop } from "../gameObjects/poop.js";
 
 export class Start extends Phaser.Scene {
 
@@ -17,6 +18,8 @@ export class Start extends Phaser.Scene {
         //UI
         //health
         this.load.image('heart', 'assets/UI Elements/heart_full.png');
+        this.load.image('empty', 'assets/UI Elements/heart_empty.png');
+        this.load.image('half', 'assets/UI Elements/heart_half.png');
         //score
         this.load.image('score', 'assets/UI Elements/buttonLong_brown.png');
 
@@ -29,6 +32,8 @@ export class Start extends Phaser.Scene {
         this.load.image('zebra', 'assets/Animals/zebra.png');
         //explosion
         this.load.image('crumb', 'assets/UI Elements/buttonRound_grey.png');
+        //poop
+        this.load.image('poop', 'assets/UI Elements/meteorBrown_big1.png');
         
         
     }
@@ -36,12 +41,6 @@ export class Start extends Phaser.Scene {
     create() {
         //Background
         this.add.image(640,360, 'background').setDisplaySize(1280,720);
-        
-        //Collision
-        this.bullets = this.add.group();
-        this.enemies = this.add.group();
-
-        this.physics.add.overlap(this.bullets, this.enemies, this.hitCallBack, null, this);
 
         //pony
         this.pony = this.physics.add.sprite(640,580, 'pony').setScale(0.7);
@@ -58,7 +57,14 @@ export class Start extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
+        
+        //Collision
+        this.bullets = this.add.group();
+        this.enemies = this.add.group();
+        this.poops = this.add.group();
 
+        this.physics.add.overlap(this.bullets, this.enemies, this.hitCallBack, null, this);
+        this.physics.add.overlap(this.poops, this.pony, this.takeDamage, null, this);
 
         //UI - cursor 
         this.cursor = this.input.keyboard.createCursorKeys();
@@ -70,10 +76,13 @@ export class Start extends Phaser.Scene {
         this.input.on('pointerup', () => { this.input.setDefaultCursor('url("assets/UI Elements/cursorGauntlet_bronze.png") 0 0, auto'); });
 
         //UI - health
-        this.health = 3;
+        this.ponyHealth = 6;
         this.hearts = [];
 
         this.textures.get('heart').setFilter(Phaser.Textures.FilterMode.NEAREST);
+        this.textures.get('empty').setFilter(Phaser.Textures.FilterMode.NEAREST);
+        this.textures.get('half').setFilter(Phaser.Textures.FilterMode.NEAREST);
+
         for (var i = 0; i < 3; i++) {
             const heart = this.add.image(40 + (i * 50),40, 'heart').setScale(3,3);
             this.hearts.push(heart);
@@ -132,6 +141,39 @@ export class Start extends Phaser.Scene {
         }
         this.score += 10;
         this.scoreText.setText(String(this.score).padStart(5, '0'));
+    }
+
+    takeDamage(poop) {
+        console.log("detected");
+        poop.destroy();
+        this.ponyHealth -= 1;
+        const textures = ['empty', 'half', 'heart'];
+
+        for(var i = 0; i < this.hearts.length; i++) {
+            const points = this.ponyHealth - i * 2
+
+            if(points >= 2) {
+                this.hearts[i].setTexture('heart');
+            } else if (points == 1) {
+                this.hearts[i].setTexture('half');
+            } else {
+                this.hearts[i].setTexture('empty');
+            }
+        }
+        this.pony.setTint(0xffbbbb);
+        this.idleTween.pause();
+        this.tweens.add({
+                targets: this.pony,
+                scaleX: 0.72,
+                scaleY: 0.78,
+                duration: 100,
+                ease: 'Sine.easeOut',
+                yoyo: true,
+                onComplete: () => {
+                    this.idleTween.resume();
+                }
+            });
+        this.time.delayedCall(300, () => {this.pony.clearTint()});
     }
 
     update() {
@@ -229,6 +271,10 @@ export class Start extends Phaser.Scene {
             this.time.delayedCall(2000, () => {
                 this.spawnWave();
             });
+        }
+
+        if (this.ponyHealth <= 0) {
+            this.scene.start('GameOver');
         }
     }
     

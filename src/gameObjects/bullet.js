@@ -7,11 +7,6 @@ export class Bullet extends Phaser.GameObjects.Sprite {
 
         this.body.setVelocityY(-300);
         this.body.setCollideWorldBounds(false);
-
-        if (this.y < 0) {
-            this.destroy();
-            console.log("destroyed bullet");
-        }
     }
 
     preUpdate(time, delta) {
