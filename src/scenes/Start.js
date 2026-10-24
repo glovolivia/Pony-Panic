@@ -92,18 +92,32 @@ export class Start extends Phaser.Scene {
         
         //Waves
         this.spawnWave();
-        this.wavePending = false;
 
     }
 
     spawnWave() {
 
-        for (var i = 0; i < 6; i++) {
-            for(var j = 0; j < 2; j++) {
-                this.zebra = new Enemy(this, 150 + (i*200), 170 + (j * 150), 'zebra', 3, 0.75,[0x857e7e, 0x414040], null);
-                this.enemies.add(this.zebra);
+        this.wavePending = true;
+
+        for (let i = 0; i < 6; i++) {
+            for(let j = 0; j < 2; j++) {
+                const delay = (j * 6 + i) * 150;
+                this.time.delayedCall(delay, () => {
+                    this.zebra = new Enemy(this, 150 + (i*200), 170 + (j * 150), 'zebra', 3, 0.75,[0x857e7e, 0x414040], null);
+                    this.enemies.add(this.zebra);
+
+                    if(i == 5 && j == 1) {
+                        for (const enemy of this.enemies.getChildren()) {
+                            enemy.startMovement();
+                        }
+                    }
+                });
+
+                this.wavePending = false;
             }
         }
+
+
     }
 
     hitCallBack(bullet, enemy) {
@@ -214,7 +228,6 @@ export class Start extends Phaser.Scene {
             this.wavePending = true;
             this.time.delayedCall(2000, () => {
                 this.spawnWave();
-                this.wavePending = false;
             });
         }
     }

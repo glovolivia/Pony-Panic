@@ -11,30 +11,21 @@ export class Enemy extends Phaser.GameObjects.Sprite {
         this.health = health;
         this.path = path;
         this.particleTint = particleTint;
+        this.setAlpha(0);
 
-        if(path == null) {
-            this.idleTween = scene.tweens.add({
+        this.appearTween = scene.tweens.add({
             targets: this,
-            scaleY: scale + 0.05,
-            y: this.y - 20,
-            duration: 400,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
-            repeat: -1
+            alpha: 1,
+            duration: 900,
+            ease: 'Back.easeOut',
         });
-            scene.tweens.add({
-                targets: this,
-                x: this.x - 50,
-                duration: 800,
-                ease: 'Sine.easeInOut',
-                yoyo: true,
-                repeat: -1
-            });
-        }
+
     }
 
     takeHit() {
-        this.idleTween.stop();
+        if(this.idleTween) {
+            this.idleTween.stop();
+        }
         this.scene.tweens.add({
             targets: this,
             scaleX: this.scale + 0.2,
@@ -73,5 +64,29 @@ export class Enemy extends Phaser.GameObjects.Sprite {
         }
         
         this.destroy();
+    }
+
+    startMovement() {
+        const scale = this.scale;
+
+        if(this.path == null) {
+            this.idleTween = this.scene.tweens.add({
+            targets: this,
+            scaleY: scale + 0.05,
+            y: this.y - 20,
+            duration: 400,
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            repeat: -1
+        });
+            this.scene.tweens.add({
+                targets: this,
+                x: this.x - 50,
+                duration: 800,
+                ease: 'Sine.easeInOut',
+                yoyo: true,
+                repeat: -1
+            });
+        }
     }
 }
