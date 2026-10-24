@@ -111,9 +111,9 @@ export class Start extends Phaser.Scene {
                             enemy.startMovement();
                         }
                     }
+                    this.wavePending = false;
                 });
 
-                this.wavePending = false;
             }
         }
 
