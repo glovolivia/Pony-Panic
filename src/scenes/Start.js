@@ -31,13 +31,21 @@ export class Start extends Phaser.Scene {
         //Bullets - cookies
         this.load.image('bullet', 'assets/UI Elements/meteorBrown_big4.png');
 
-        //Enemies
+        //Enemy related 
         //Zebra
         this.load.image('zebra', 'assets/Animals/zebra.png');
         //explosion
         this.load.image('crumb', 'assets/UI Elements/buttonRound_grey.png');
-        //poop
+
+
+        //Poop related
         this.load.image('poop', 'assets/UI Elements/meteorBrown_big1.png');
+        //splashes
+        this.load.image('splash1', 'assets/PoopSplashes/splat00.png');
+        this.load.image('splash2', 'assets/PoopSplashes/splat01.png');
+        this.load.image('splash3', 'assets/PoopSplashes/splat29.png');
+        this.load.image('splash4', 'assets/PoopSplashes/splat18.png');
+        this.load.image('splash5', 'assets/PoopSplashes/splat20.png');
         
         
     }
@@ -130,7 +138,7 @@ export class Start extends Phaser.Scene {
             this.cameras.main.setZoom(1);
             this.cameras.main.centerOn(640, 360);
         }
-        
+
         //Waves
         this.spawnWave();
 
@@ -234,7 +242,7 @@ export class Start extends Phaser.Scene {
 
         //movement 
         if(this.isDemo) {
-            if(this.pony.x <= 200) {
+            if(this.pony.x <= 190) {
                 this.demoDirection = 1;
             } else if (this.pony.x >= 1120) {
                 this.demoDirection = -1;
