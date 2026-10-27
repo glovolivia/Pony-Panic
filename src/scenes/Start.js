@@ -234,9 +234,9 @@ export class Start extends Phaser.Scene {
 
         //movement 
         if(this.isDemo) {
-            if(this.pony.x <= 250) {
+            if(this.pony.x <= 200) {
                 this.demoDirection = 1;
-            } else if (this.pony.x >= 1020) {
+            } else if (this.pony.x >= 1120) {
                 this.demoDirection = -1;
             }
             this.pony.setVelocityX(speed * this.demoDirection);
