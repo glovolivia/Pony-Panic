@@ -32,8 +32,19 @@ export class Start extends Phaser.Scene {
         this.load.image('bullet', 'assets/UI Elements/meteorBrown_big4.png');
 
         //Enemy related 
+        this.load.json('enemies', 'Data/enemies.json');
+        this.load.json('waveTypes', 'Data/waveTypes.json');
         //Zebra
         this.load.image('zebra', 'assets/Animals/zebra.png');
+        //Chicken and chick
+        this.load.image('chicken', 'assets/Animals/chicken.png');
+        this.load.image('chick', 'assets/Animals/chick.png');
+        //pig
+        this.load.image('pig', 'assets/Animals/pig.png');
+        //cow
+        this.load.image('cow', 'assets/Animals/cow.png');
+        //goat
+        this.load.image('goat', 'assets/Animals/goat.png')
         //explosion
         this.load.image('crumb', 'assets/UI Elements/buttonRound_grey.png');
 
@@ -140,6 +151,11 @@ export class Start extends Phaser.Scene {
         }
 
         //Waves
+        //import from json
+        this.enemiesData = this.cache.json.get('enemies')
+        this.waveData = this.cache.json.get('waveTypes');
+        this.waveCount = 0;
+
         this.spawnWave();
 
     }
@@ -148,22 +164,47 @@ export class Start extends Phaser.Scene {
 
         this.wavePending = true;
 
-        for (let i = 0; i < 6; i++) {
-            for(let j = 0; j < 2; j++) {
-                const delay = (j * 6 + i) * 150;
-                this.time.delayedCall(delay, () => {
-                    this.zebra = new Enemy(this, 150 + (i*200), 170 + (j * 150), 'zebra', 3, 0.75,[0x857e7e, 0x414040], null);
-                    this.enemies.add(this.zebra);
+        if(this.waveCount == 0) {
+            for (let i = 0; i < 6; i++) {
+                for(let j = 0; j < 2; j++) {
+                    const delay = (j * 6 + i) * 150;
+                    this.time.delayedCall(delay, () => {
+                        this.zebra = new Enemy(this, 150 + (i*200), 170 + (j * 150), this.enemiesData.zebra.texture, this.enemiesData.zebra.health, this.enemiesData.zebra.scale,this.enemiesData.zebra.particleTint, this.enemiesData.zebra.poopRate, this.enemiesData.zebra.path);
+                        this.enemies.add(this.zebra);
 
-                    if(i == 5 && j == 1) {
-                        for (const enemy of this.enemies.getChildren()) {
-                            enemy.startMovement();
+                        if(i == 5 && j == 1) {
+                            for (const enemy of this.enemies.getChildren()) {
+                                enemy.startMovement();
+                            }
                         }
-                    }
-                    this.wavePending = false;
-                });
+                        this.wavePending = false;
+                    });
 
+                }
             }
+            this.waveCount = 1;
+        } else {
+            const animalNames = Object.keys(this.enemiesData);
+            const randomAnimal = Phaser.Utils.Array.GetRandom(animalNames);
+
+            for (let i = 0; i < 6; i++) {
+                for(let j = 0; j < 2; j++) {
+                    const delay = (j * 6 + i) * 150;
+                    this.time.delayedCall(delay, () => {
+                        const currentAnimal = this.enemiesData[randomAnimal];
+                        this.animal = new Enemy(this, 150 + (i*200), 170 + (j * 150), currentAnimal.texture, currentAnimal.health, currentAnimal.scale, currentAnimal.particleTint, currentAnimal.poopRate, currentAnimal.path);
+                        this.enemies.add(this.animal);
+
+                        if(i == 5 && j == 1) {
+                            for (const enemy of this.enemies.getChildren()) {
+                                enemy.startMovement();
+                            }
+                        }
+                        this.wavePending = false;
+                    });
+                }
+            }
+
         }
 
 

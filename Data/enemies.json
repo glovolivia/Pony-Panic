@@ -1,0 +1,52 @@
+{
+    "zebra": {
+        "texture": "zebra",
+        "health": 3,
+        "scale": 0.75,
+        "particleTint": [8748670, 4276288],
+        "poopRate": [1000, 9000],
+        "path": null
+    },
+    "pig": {
+        "texture": "pig",
+        "health": 5,
+        "scale": 0.82,
+        "particleTint": [15310315, 11166121, 16777215],
+        "poopRate": [1000, 12000],
+        "path": null
+    },
+    "cow": {
+        "texture": "cow",
+        "health": 5,
+        "scale": 0.85,
+        "particleTint": [4341824, 16777215, 16755448],
+        "poopRate": [1000, 15000],
+        "path": null
+    },
+
+    "chicken": {
+        "texture": "chicken",
+        "health": 2,
+        "scale": 0.6,
+        "particleTint": [15658734, 15578368, 14167552],
+        "poopRate": [1000, 3000],
+        "path": null
+    },
+    "chick": {
+        "texture": "chick",
+        "health": 1,
+        "scale": 0.4,
+        "particleTint": [16304384, 15633152, 16777215],
+        "poopRate": [1000, 2000],
+        "path": null
+    },
+    "goat": {
+        "texture": "goat",
+        "health": 5,
+        "scale": 0.82,
+        "particleTint": [11102008, 15582376, 6634531],
+        "poopRate": [1000, 6000],
+        "path": null
+    }
+
+}

@@ -1,0 +1,27 @@
+{
+    "zebraWave": {
+            "animals": ["zebra"],
+            "formation": "grid",
+            "entityCount": 12
+    },
+    "pigWave": {
+            "animals": ["pig"],
+            "formation": "grid",
+            "entityCount": 8
+    },
+    "cowWave": {
+            "animals": ["cow"],
+            "formation": "grid",
+            "entityCount": 6
+    },
+    "chickenWave": {
+            "animals": ["chicken", "chick"],
+            "formation": "grid",
+            "entityCount": 6
+    },
+    "goatWave": {
+            "animals": ["goat"],
+            "formation": "V",
+            "entityCount": 7
+    }
+}

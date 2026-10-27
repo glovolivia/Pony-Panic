@@ -2,7 +2,7 @@ import { Start } from "../scenes/Start.js";
 import { Poop } from "./poop.js";
 
 export class Enemy extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, texture, health, scale, particleTint, path=null) {
+    constructor(scene, x, y, texture, health, scale, particleTint, poopRate, path=null) {
         super(scene, x, y, texture);
         scene.add.existing(this);
         scene.physics.add.existing(this);
@@ -13,6 +13,7 @@ export class Enemy extends Phaser.GameObjects.Sprite {
         this.health = health;
         this.path = path;
         this.particleTint = particleTint;
+        this.poopRate = poopRate;
         this.setAlpha(0);
 
         this.appearTween = scene.tweens.add({
@@ -27,7 +28,7 @@ export class Enemy extends Phaser.GameObjects.Sprite {
 
     pooping() {
         
-        this.poopTimer = this.scene.time.delayedCall(Phaser.Math.Between(1000, 9000), () => {
+        this.poopTimer = this.scene.time.delayedCall((this.poopRate[0], this.poopRate[1]), () => {
             if(this.scene.gameEnd) return;
 
             const poop = new Poop(this.scene, this.x, this.y + 50)
