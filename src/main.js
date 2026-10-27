@@ -1,5 +1,8 @@
 import { GameOver } from './scenes/GameOver.js';
 import { Start } from './scenes/Start.js';
+import { Menu } from './scenes/Menu.js';
+import { Credits } from './scenes/Credits.js';
+import { Controls } from './scenes/Controls.js';
 
 const config = {
     type: Phaser.AUTO,
@@ -11,7 +14,7 @@ const config = {
     backgroundColor: '#000000',
     pixelArt: false,
     scene: [
-        Start, GameOver
+        Menu, Start, GameOver, Credits, Controls
     ],
     scale: {
         mode: Phaser.Scale.FIT,

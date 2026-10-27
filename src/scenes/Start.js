@@ -147,7 +147,6 @@ export class Start extends Phaser.Scene {
         console.log("detected");
         poop.destroy();
         this.ponyHealth -= 1;
-        const textures = ['empty', 'half', 'heart'];
 
         for(var i = 0; i < this.hearts.length; i++) {
             const points = this.ponyHealth - i * 2
@@ -156,8 +155,24 @@ export class Start extends Phaser.Scene {
                 this.hearts[i].setTexture('heart');
             } else if (points == 1) {
                 this.hearts[i].setTexture('half');
+                this.add.tween({
+                    targets: this.hearts[i],
+                    scaleX: 3.6,
+                    scaleY: 3.6, 
+                    duration: 50,
+                    ease: 'Sine.easeOut',
+                    yoyo: true
+                });
             } else {
                 this.hearts[i].setTexture('empty');
+                this.add.tween({
+                    targets: this.hearts[i],
+                    scaleX: 3.6,
+                    scaleY: 3.6, 
+                    duration: 50,
+                    ease: 'Sine.easeOut',
+                    yoyo: true
+                });
             }
         }
         this.pony.setTint(0xffbbbb);
