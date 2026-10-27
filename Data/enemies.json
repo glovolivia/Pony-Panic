@@ -4,7 +4,7 @@
         "health": 3,
         "scale": 0.75,
         "particleTint": [8748670, 4276288],
-        "poopRate": [1000, 9000],
+        "poopRate": [1000, 7000],
         "path": null
     },
     "pig": {
@@ -12,7 +12,7 @@
         "health": 5,
         "scale": 0.82,
         "particleTint": [15310315, 11166121, 16777215],
-        "poopRate": [1000, 12000],
+        "poopRate": [1000, 9000],
         "path": null
     },
     "cow": {
@@ -20,7 +20,7 @@
         "health": 5,
         "scale": 0.85,
         "particleTint": [4341824, 16777215, 16755448],
-        "poopRate": [1000, 15000],
+        "poopRate": [1000, 11000],
         "path": null
     },
 
@@ -47,6 +47,111 @@
         "particleTint": [11102008, 15582376, 6634531],
         "poopRate": [1000, 6000],
         "path": null
+    },
+    "duck": {
+        "texture": "duck",
+        "health": 3,
+        "scale": 0.65,
+        "particleTint": [3066993, 15987699, 16763904],
+        "poopRate": [1000, 4000],
+        "path": null
+    },
+    "buffalo": {
+        "texture": "buffalo",
+        "health": 8,
+        "scale": 0.84,
+        "particleTint": [6242861, 10577465, 15453879],
+        "poopRate": [1000, 7000],
+        "path": null
+    },
+    "monkey": {
+        "texture": "monkey",
+        "health": 3,
+        "scale": 0.75,
+        "particleTint": [10577465, 12551768, 7161126],
+        "poopRate": [1000, 5000],
+        "path": null
+    },
+    "moose": {
+        "texture": "moose",
+        "health": 7,
+        "scale": 0.83,
+        "particleTint": [16304384, 15633152, 16777215],
+        "poopRate": [1000, 8000],
+        "path": null
+    },
+    "giraffe": {
+        "texture": "giraffe",
+        "health": 5,
+        "scale": 0.79,
+        "particleTint": [16763904, 13805568, 9992448],
+        "poopRate": [1000, 5000],
+        "path": null
+    },
+    "hippo": {
+        "texture": "hippo",
+        "health": 11,
+        "scale": 0.9,
+        "particleTint": [5410011, 4290754, 5938163],
+        "poopRate": [1000, 9000],
+        "path": null
+    },
+    "panda": {
+        "texture": "panda",
+        "health": 4,
+        "scale": 0.77,
+        "particleTint": [16119285, 4276288, 8421247],
+        "poopRate": [1000, 4000],
+        "path": null
+    },
+    "penguin": {
+        "texture": "penguin",
+        "health": 3,
+        "scale": 0.65,
+        "particleTint": [3562086, 14020343, 1913144],
+        "poopRate": [1000, 3500],
+        "path": null
+    },
+    "rabbit": {
+        "texture": "rabbit",
+        "health": 3,
+        "scale": 0.63,
+        "particleTint": [13816016, 8748670, 16777215],
+        "poopRate": [1000, 3000],
+        "path": null
+    }, 
+    "rhino": {
+        "texture": "rhino",
+        "health": 9,
+        "scale": 0.88,
+        "particleTint": [13816016, 12433078, 8748670],
+        "poopRate": [1000, 10000],
+        "path": null
+    },
+    "sloth": {
+        "texture": "sloth",
+        "health": 5,
+        "scale": 0.75,
+        "particleTint": [10577465, 15453879, 7161126],
+        "poopRate": [1000, 9000],
+        "path": null
+    },
+    "walrus": {
+        "texture": "walrus",
+        "health": 7,
+        "scale": 0.83,
+        "particleTint": [9989196, 6440496, 11632216],
+        "poopRate": [1000, 8000],
+        "path": null
+    },
+    "parrot": {
+        "texture": "parrot",
+        "health": 2,
+        "scale": 0.68,
+        "particleTint": [13774855, 16763904, 6135027],
+        "poopRate": [1000, 3000],
+        "path": null
     }
+    
 
 }

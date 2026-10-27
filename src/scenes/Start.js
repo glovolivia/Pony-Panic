@@ -44,7 +44,33 @@ export class Start extends Phaser.Scene {
         //cow
         this.load.image('cow', 'assets/Animals/cow.png');
         //goat
-        this.load.image('goat', 'assets/Animals/goat.png')
+        this.load.image('goat', 'assets/Animals/goat.png');
+        //duck
+        this.load.image('duck', 'assets/Animals/duck.png');
+        //buffalo
+        this.load.image('buffalo', 'assets/Animals/buffalo.png');
+        //monkey
+        this.load.image('monkey', 'assets/Animals/monkey.png');
+        //moose
+        this.load.image("moose", 'assets/Animals/monkey.png');
+        //giraffe
+        this.load.image('giraffe', 'assets/Animals/giraffe.png');
+        //hippo
+        this.load.image('hippo', 'assets/Animals/hippo.png');
+        //panda
+        this.load.image('panda', 'assets/Animals/panda.png');
+        //penguin
+        this.load.image('penguin', 'assets/Animals/penguin.png');
+        //rabbit
+        this.load.image('rabbit', 'assets/Animals/rabbit.png');
+        //rhino
+        this.load.image('rhino', 'assets/Animals/rhino.png');
+        //sloth
+        this.load.image('sloth', 'assets/Animals/sloth.png');
+        //walrus
+        this.load.image('walrus', 'assets/Animals/walrus.png');
+        //parrot
+        this.load.image('parrot', 'assets/Animals/parrot.png');
         //explosion
         this.load.image('crumb', 'assets/UI Elements/buttonRound_grey.png');
 
@@ -175,9 +201,9 @@ export class Start extends Phaser.Scene {
                         if(i == 5 && j == 1) {
                             for (const enemy of this.enemies.getChildren()) {
                                 enemy.startMovement();
+                                this.wavePending = false;
                             }
                         }
-                        this.wavePending = false;
                     });
 
                 }
@@ -198,9 +224,9 @@ export class Start extends Phaser.Scene {
                         if(i == 5 && j == 1) {
                             for (const enemy of this.enemies.getChildren()) {
                                 enemy.startMovement();
+                                this.wavePending = false;
                             }
                         }
-                        this.wavePending = false;
                     });
                 }
             }
