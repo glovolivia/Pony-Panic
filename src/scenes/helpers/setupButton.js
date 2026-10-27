@@ -30,6 +30,13 @@ export function setupButton(scene, buttonImageTXT, buttonText, x, y, scale, norm
 
         button.on('pointerup', () => {
             button.setTexture(normalTXT);
+            if(scene.scene.key == "Menu") {
+                scene.scene.stop('Start');
+            }
+            if(onClick == "Start") {
+                scene.scene.stop('Start');
+                scene.scene.start('Start', {isDemo: false});
+            }
             scene.scene.start(onClick);
         });
 

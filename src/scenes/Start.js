@@ -8,6 +8,10 @@ export class Start extends Phaser.Scene {
         super('Start');
     }
 
+    init(data) {
+        this.isDemo = data.isDemo === true;
+    }
+
     preload() {
         //Background
         this.load.image('background', 'assets/Backgrounds/Untitled design (2).png');
@@ -100,6 +104,32 @@ export class Start extends Phaser.Scene {
         }).setOrigin(0.4, 0);
 
         this.gameEnd = false;
+
+        //demo settings
+
+        if(this.isDemo) {
+            this.input.enabled = false;
+            this.cameras.main.setViewport(200, 287.5, 480, 305);
+            this.cameras.main.setZoom(305 / 720);
+            this.cameras.main.centerOn(640, 360);
+
+            this.demoDirection = 1;
+
+            this.time.addEvent({
+                delay: 1000,
+                loop: true,
+                callback: () => {
+                    const bullet = new Bullet(this, this.pony.x, this.pony.y-40);
+                    this.bullets.add(bullet);
+                }
+            });
+
+        } else {
+            this.input.enabled = true;
+            this.cameras.main.setViewport(0, 0, 1280, 720);
+            this.cameras.main.setZoom(1);
+            this.cameras.main.centerOn(640, 360);
+        }
         
         //Waves
         this.spawnWave();
@@ -146,51 +176,55 @@ export class Start extends Phaser.Scene {
     }
 
     takeDamage(poop) {
-        console.log("detected");
-        poop.destroy();
-        this.ponyHealth -= 1;
+        if(this.isDemo) {
+            poop.destroy();
+        } else {
+            console.log("detected");
+            poop.destroy();
+            this.ponyHealth -= 1;
 
-        for(var i = 0; i < this.hearts.length; i++) {
-            const points = this.ponyHealth - i * 2
+            for(var i = 0; i < this.hearts.length; i++) {
+                const points = this.ponyHealth - i * 2
 
-            if(points >= 2) {
-                this.hearts[i].setTexture('heart');
-            } else if (points == 1) {
-                this.hearts[i].setTexture('half');
-                this.add.tween({
-                    targets: this.hearts[i],
-                    scaleX: 3.6,
-                    scaleY: 3.6, 
-                    duration: 50,
-                    ease: 'Sine.easeOut',
-                    yoyo: true
-                });
-            } else {
-                this.hearts[i].setTexture('empty');
-                this.add.tween({
-                    targets: this.hearts[i],
-                    scaleX: 3.6,
-                    scaleY: 3.6, 
-                    duration: 50,
-                    ease: 'Sine.easeOut',
-                    yoyo: true
-                });
-            }
-        }
-        this.pony.setTint(0xffbbbb);
-        this.idleTween.pause();
-        this.tweens.add({
-                targets: this.pony,
-                scaleX: 0.72,
-                scaleY: 0.78,
-                duration: 100,
-                ease: 'Sine.easeOut',
-                yoyo: true,
-                onComplete: () => {
-                    this.idleTween.resume();
+                if(points >= 2) {
+                    this.hearts[i].setTexture('heart');
+                } else if (points == 1) {
+                    this.hearts[i].setTexture('half');
+                    this.add.tween({
+                        targets: this.hearts[i],
+                        scaleX: 3.6,
+                        scaleY: 3.6, 
+                        duration: 50,
+                        ease: 'Sine.easeOut',
+                        yoyo: true
+                    });
+                } else {
+                    this.hearts[i].setTexture('empty');
+                    this.add.tween({
+                        targets: this.hearts[i],
+                        scaleX: 3.6,
+                        scaleY: 3.6, 
+                        duration: 50,
+                        ease: 'Sine.easeOut',
+                        yoyo: true
+                    });
                 }
-            });
-        this.time.delayedCall(300, () => {this.pony.clearTint()});
+            }
+            this.pony.setTint(0xffbbbb);
+            this.idleTween.pause();
+            this.tweens.add({
+                    targets: this.pony,
+                    scaleX: 0.72,
+                    scaleY: 0.78,
+                    duration: 100,
+                    ease: 'Sine.easeOut',
+                    yoyo: true,
+                    onComplete: () => {
+                        this.idleTween.resume();
+                    }
+                });
+            this.time.delayedCall(300, () => {this.pony.clearTint()});
+    }
     }
 
     update() {
@@ -199,89 +233,100 @@ export class Start extends Phaser.Scene {
         if (this.gameEnd) return;
 
         //movement 
-        if (!this.isBouncing) {
-            if (this.cursor.left.isDown) {
-                //(console.log("left pressed"));
-                this.pony.setVelocityX(-speed);
-            } else if (this.cursor.right.isDown) {
-                //(console.log("right pressed"));
-                this.pony.setVelocityX(speed);
-            } else {
-                this.pony.setVelocityX(0);
+        if(this.isDemo) {
+            if(this.pony.x <= 250) {
+                this.demoDirection = 1;
+            } else if (this.pony.x >= 1020) {
+                this.demoDirection = -1;
+            }
+            this.pony.setVelocityX(speed * this.demoDirection);
+
+        } else {
+
+            if (!this.isBouncing) {
+                if (this.cursor.left.isDown) {
+                    //(console.log("left pressed"));
+                    this.pony.setVelocityX(-speed);
+                } else if (this.cursor.right.isDown) {
+                    //(console.log("right pressed"));
+                    this.pony.setVelocityX(speed);
+                } else {
+                    this.pony.setVelocityX(0);
+                }
+
+                //shooting
+                if (Phaser.Input.Keyboard.JustDown(this.cursor.space)) {
+                    //console.log("shoot shoot");
+                    //spawn bullet using new 
+                    this.bullet = new Bullet(this, this.pony.x, this.pony.y-40);
+                    this.bullets.add(this.bullet);
+                    if(!this.isShooting) {
+                        this.isShooting = true;
+                        this.tweens.add({
+                            targets: this.pony,
+                            scaleX: 0.92,
+                            scaleY: 0.50,
+                            duration: 80,
+                            ease: 'Sine.easeOut',
+                            yoyo: true,
+                            onComplete: () => {
+                                this.isShooting = false;
+                            }
+                        });
+                    }
+
+                    
+                }
             }
 
-            //shooting
-            if (Phaser.Input.Keyboard.JustDown(this.cursor.space)) {
-                //console.log("shoot shoot");
-                //spawn bullet using new 
-                this.bullet = new Bullet(this, this.pony.x, this.pony.y-40);
-                this.bullets.add(this.bullet);
-                if(!this.isShooting) {
-                    this.isShooting = true;
+            if (this.pony.body.blocked.left && !this.isBouncing) {
+                this.isBouncing = true;
+                this.pony.setVelocityX(0);
+                this.pony.setVelocityX(250)
+                this.tweens.add({
+                targets: this.pony,
+                scaleX: 0.5,
+                scaleY: 0.80,
+                duration: 150,
+                ease: 'Back.easeOut',
+                onComplete: () => {
                     this.tweens.add({
                         targets: this.pony,
-                        scaleX: 0.92,
-                        scaleY: 0.50,
-                        duration: 80,
+                        scaleX: 0.7,
+                        scaleY: 0.7,
+                        duration: 100,
                         ease: 'Sine.easeOut',
-                        yoyo: true,
                         onComplete: () => {
-                            this.isShooting = false;
+                            this.isBouncing = false;
                         }
-                    });
-                }
+                        })
+                    }
+                });
 
-                
+            } else if (this.pony.body.blocked.right && !this.isBouncing) {
+                this.isBouncing = true;
+                this.pony.setVelocityX(0);
+                this.pony.setVelocityX(-250)
+                this.tweens.add({
+                targets: this.pony,
+                scaleX: 0.5,
+                scaleY: 0.80,
+                duration: 150,
+                ease: 'Back.easeOut',
+                onComplete: () => {
+                    this.tweens.add({
+                        targets: this.pony,
+                        scaleX: 0.7,
+                        scaleY: 0.7,
+                        duration: 100,
+                        ease: 'Sine.easeOut',
+                        onComplete: () => {
+                            this.isBouncing = false;
+                        }
+                        })
+                    }
+                });
             }
-        }
-
-        if (this.pony.body.blocked.left && !this.isBouncing) {
-            this.isBouncing = true;
-            this.pony.setVelocityX(0);
-            this.pony.setVelocityX(250)
-            this.tweens.add({
-            targets: this.pony,
-            scaleX: 0.5,
-            scaleY: 0.80,
-            duration: 150,
-            ease: 'Back.easeOut',
-            onComplete: () => {
-                this.tweens.add({
-                    targets: this.pony,
-                    scaleX: 0.7,
-                    scaleY: 0.7,
-                    duration: 100,
-                    ease: 'Sine.easeOut',
-                    onComplete: () => {
-                        this.isBouncing = false;
-                    }
-                    })
-                }
-            });
-
-        } else if (this.pony.body.blocked.right && !this.isBouncing) {
-            this.isBouncing = true;
-            this.pony.setVelocityX(0);
-            this.pony.setVelocityX(-250)
-            this.tweens.add({
-            targets: this.pony,
-            scaleX: 0.5,
-            scaleY: 0.80,
-            duration: 150,
-            ease: 'Back.easeOut',
-            onComplete: () => {
-                this.tweens.add({
-                    targets: this.pony,
-                    scaleX: 0.7,
-                    scaleY: 0.7,
-                    duration: 100,
-                    ease: 'Sine.easeOut',
-                    onComplete: () => {
-                        this.isBouncing = false;
-                    }
-                    })
-                }
-            });
         }
 
         if(this.enemies.getLength() == 0 && !this.wavePending) {
