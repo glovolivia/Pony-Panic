@@ -1,3 +1,4 @@
+import { Start } from "../scenes/Start.js";
 import { Poop } from "./poop.js";
 
 export class Enemy extends Phaser.GameObjects.Sprite {
@@ -21,12 +22,14 @@ export class Enemy extends Phaser.GameObjects.Sprite {
             ease: 'Back.easeOut',
         });
 
-        this.pooping();
-
+            this.pooping();
     }
 
     pooping() {
+        
         this.poopTimer = this.scene.time.delayedCall(Phaser.Math.Between(1000, 9000), () => {
+            if(this.scene.gameEnd) return;
+
             const poop = new Poop(this.scene, this.x, this.y + 50)
             this.scene.poops.add(poop);
 

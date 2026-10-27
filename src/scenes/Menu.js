@@ -44,7 +44,6 @@ export class Menu extends Phaser.Scene {
         this.buttonC = setupButton(this, false, 'CREDITS', 640, 560, 1.9, 'button_long', 'button_long_pressed', 'Credits');
         this.ui.add(this.buttonC);
 
-
         this.tweens.add({
             targets: this.ui,
             repeat: -1,

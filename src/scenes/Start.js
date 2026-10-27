@@ -98,6 +98,8 @@ export class Start extends Phaser.Scene {
             stroke: '#5a4630',
             strokeThickness: 4
         }).setOrigin(0.4, 0);
+
+        this.gameEnd = false;
         
         //Waves
         this.spawnWave();
@@ -194,6 +196,7 @@ export class Start extends Phaser.Scene {
     update() {
         const speed = 500;
 
+        if (this.gameEnd) return;
 
         //movement 
         if (!this.isBouncing) {
@@ -288,8 +291,46 @@ export class Start extends Phaser.Scene {
             });
         }
 
-        if (this.ponyHealth <= 0) {
-            this.scene.start('GameOver');
+        if (this.ponyHealth <= 0 && !this.gameEnd) {
+            const highScore = Number(localStorage.getItem('highScore')) || 0;
+
+            this.gameEnd = true;
+            this.physics.pause();
+            this.pony.setVelocity(0);
+
+            if (this.score > highScore) {
+                console.log(highScore);
+                localStorage.setItem('highScore', this.score);
+                this.add.rectangle(640, 360, 1280, 720, 0x000000, 0.4);
+
+                this.ui = this.add.container(640,400);
+
+                this.highS = this.add.text(0, -65, 'NEW HIGH SCORE!',  { fontSize: '100px', fill: '#FFF', align: "center", stroke: "#070706d9", strokeThickness: 3 }).setOrigin(0.5).setShadow(3, 3, '#667580', 4);
+                this.ui.add(this.highS);
+                this.ui.add(this.add.text(0,65, this.score,  { fontSize: '100px', fill: '#FFF', align: "center", stroke: "#070706d9", strokeThickness: 3 }).setOrigin(0.5).setShadow(3, 3, '#667580', 4));
+                this.tweens.chain({
+                    targets: this.ui,
+                    tweens: [
+                        {
+                            y: 360,
+                            duration: 300,
+                            ease: 'Sine.easeOut',
+                            yoyo: false
+                        },
+                        {
+                            scale: 1.2,
+                            duration: 400,
+                            ease: 'Back.easeOut',
+                            yoyo: true,
+                            repeat: 10,
+                        }
+                    ]
+                });
+
+                this.time.delayedCall(6000, () => {this.scene.start('GameOver')});
+            } else {
+                this.time.delayedCall(1000, () => {this.scene.start('GameOver')});
+            }
         }
     }
     
