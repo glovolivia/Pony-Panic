@@ -288,6 +288,13 @@ export class Start extends Phaser.Scene {
                                 this.animal = new Enemy(this, startX + (j*200), 170 + (i * 150), currentAnimal.texture, currentAnimal.health, currentAnimal.scale, currentAnimal.particleTint, currentAnimal.poopRate, currentAnimal.path);
                                 this.enemies.add(this.animal);
 
+                                if(j == x-1 && i == 1) {
+                                    for (const enemy of this.enemies.getChildren()) {
+                                        enemy.startMovement();
+                                        this.wavePending = false;
+                                    }
+                                }
+
                             });
                         } else {
                             const delay = (i* currentEntityCount + j) * 150;
@@ -296,12 +303,6 @@ export class Start extends Phaser.Scene {
                                 this.animal = new Enemy(this, startX + (j*200), 170 + (i * 150), currentAnimal.texture, currentAnimal.health, currentAnimal.scale, currentAnimal.particleTint, currentAnimal.poopRate, currentAnimal.path);
                                 this.enemies.add(this.animal);
 
-                                if(j == x-1 && i == 1) {
-                                    for (const enemy of this.enemies.getChildren()) {
-                                        enemy.startMovement();
-                                        this.wavePending = false;
-                                    }
-                                }
                             });
                         }
                     }
