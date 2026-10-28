@@ -3,6 +3,7 @@ import { Start } from './scenes/Start.js';
 import { Menu } from './scenes/Menu.js';
 import { Credits } from './scenes/Credits.js';
 import { Controls } from './scenes/Controls.js';
+import { Debug } from './scenes/Debug.js';
 
 const config = {
     type: Phaser.AUTO,

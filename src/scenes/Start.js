@@ -212,35 +212,109 @@ export class Start extends Phaser.Scene {
         } else {
             const animalNames = Object.keys(this.enemiesData);
             const randomAnimal = Phaser.Utils.Array.GetRandom(animalNames);
+            const waveNames = Object.keys(this.waveData);
+            let currentFormation;
+            let currentEntityCount;
 
-            for (let i = 0; i < 6; i++) {
-                for(let j = 0; j < 2; j++) {
-                    const delay = (j * 6 + i) * 150;
-                    this.time.delayedCall(delay, () => {
-                        const currentAnimal = this.enemiesData[randomAnimal];
-                        this.animal = new Enemy(this, 150 + (i*200), 170 + (j * 150), currentAnimal.texture, currentAnimal.health, currentAnimal.scale, currentAnimal.particleTint, currentAnimal.poopRate, currentAnimal.path);
-                        this.enemies.add(this.animal);
+            for(const name of waveNames) {
+                const wave = this.waveData[name];
 
-                        if(i == 5 && j == 1) {
+                if(wave.animals.includes(randomAnimal)) {
+                    currentFormation = wave.formation;
+                    currentEntityCount = wave.entityCount;
+                    console.log(currentFormation, wave.entityCount);
+                    break;
+                }
+            }
+
+            if(currentFormation == 'grid') {
+                const startX = 640 - ((currentEntityCount / 2 - 1) * 200) / 2;
+                for (let i = 0; i < currentEntityCount/2; i++) {
+                    for(let j = 0; j < 2; j++) {
+                        const delay = (j * currentEntityCount + i) * 150;
+                        this.time.delayedCall(delay, () => {
+                            const currentAnimal = this.enemiesData[randomAnimal];
+                            this.animal = new Enemy(this, startX + (i*200), 170 + (j * 150), currentAnimal.texture, currentAnimal.health, currentAnimal.scale, currentAnimal.particleTint, currentAnimal.poopRate, currentAnimal.path);
+                            this.enemies.add(this.animal);
+
+                            if(i == currentEntityCount/2-1 && j == 1) {
+                                for (const enemy of this.enemies.getChildren()) {
+                                    enemy.startMovement();
+                                    this.wavePending = false;
+                                }
+                            }
+                        });
+                    }
+                }
+            } else if (currentFormation == 'V') {
+                var i_other = 1;
+                const startX = 640 - ((currentEntityCount / 2 - 1) * 180) / 2;
+
+                for (let i = 0; i < currentEntityCount; i++) {
+                    const delay = (currentEntityCount + i) * 150;
+                    if(i < Math.floor(currentEntityCount / 2 + 1)) { 
+                        this.time.delayedCall(delay, () => {
+                            const currentAnimal = this.enemiesData[randomAnimal];
+                            this.animal = new Enemy(this, startX + (i*180), 150 + (i * 50), currentAnimal.texture, currentAnimal.health, currentAnimal.scale, currentAnimal.particleTint, currentAnimal.poopRate, currentAnimal.path);
+                            this.enemies.add(this.animal);
+                        });
+                    } else if (i >= Math.floor(currentEntityCount / 2)) {
+                        this.time.delayedCall(delay, () => {
+                            const currentAnimal = this.enemiesData[randomAnimal];
+                            this.animal = new Enemy(this, startX + (i*180), 300 - (i_other * 50), currentAnimal.texture, currentAnimal.health, currentAnimal.scale, currentAnimal.particleTint, currentAnimal.poopRate, currentAnimal.path);
+                            this.enemies.add(this.animal);
+                            i_other++;
+
+                        if(i == currentEntityCount/2 - 1) {
                             for (const enemy of this.enemies.getChildren()) {
                                 enemy.startMovement();
                                 this.wavePending = false;
                             }
                         }
-                    });
+                        });
+                    }
+                }
+            } else if (currentFormation == 'staggered') {
+                const startX = 640 - ((currentEntityCount / 2 - 1) * 200) / 2;
+
+                for (let i = 0; i < 2; i++) {
+                const x = i === 0 ? Math.ceil(currentEntityCount/2) : Math.floor(currentEntityCount/2);
+
+                    for(let j = 0; j < x; j++) {
+                        if ( i == 1) {
+                            const delay = (i*currentEntityCount+j) * 150;
+                            this.time.delayedCall(delay, () => {
+                                const currentAnimal = this.enemiesData[randomAnimal];
+                                this.animal = new Enemy(this, startX + (j*200), 170 + (i * 150), currentAnimal.texture, currentAnimal.health, currentAnimal.scale, currentAnimal.particleTint, currentAnimal.poopRate, currentAnimal.path);
+                                this.enemies.add(this.animal);
+
+                            });
+                        } else {
+                            const delay = (i* currentEntityCount + j) * 150;
+                            this.time.delayedCall(delay, () => {
+                                const currentAnimal = this.enemiesData[randomAnimal];
+                                this.animal = new Enemy(this, startX + (j*200), 170 + (i * 150), currentAnimal.texture, currentAnimal.health, currentAnimal.scale, currentAnimal.particleTint, currentAnimal.poopRate, currentAnimal.path);
+                                this.enemies.add(this.animal);
+
+                                if(j == x-1 && i == 1) {
+                                    for (const enemy of this.enemies.getChildren()) {
+                                        enemy.startMovement();
+                                        this.wavePending = false;
+                                    }
+                                }
+                            });
+                        }
+                    }
                 }
             }
-
         }
-
-
     }
 
     hitCallBack(bullet, enemy) {
         enemy.takeHit();
         bullet.destroy();
         enemy.health -= 1;
-        console.log(enemy.health);
+        //console.log(enemy.health);
         if(enemy.health <= 0) {
             enemy.explode();
             //console.log("why");
@@ -254,7 +328,7 @@ export class Start extends Phaser.Scene {
         if(this.isDemo) {
             poop.destroy();
         } else {
-            console.log("detected");
+            //console.log("detected");
             poop.destroy();
             this.ponyHealth -= 1;
 

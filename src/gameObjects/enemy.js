@@ -28,7 +28,7 @@ export class Enemy extends Phaser.GameObjects.Sprite {
 
     pooping() {
         
-        this.poopTimer = this.scene.time.delayedCall((this.poopRate[0], this.poopRate[1]), () => {
+        this.poopTimer = this.scene.time.delayedCall((Phaser.Math.Between(this.poopRate[0], this.poopRate[1])), () => {
             if(this.scene.gameEnd) return;
 
             const poop = new Poop(this.scene, this.x, this.y + 50)
