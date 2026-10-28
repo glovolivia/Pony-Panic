@@ -52,7 +52,7 @@ export class Start extends Phaser.Scene {
         //monkey
         this.load.image('monkey', 'assets/Animals/monkey.png');
         //moose
-        this.load.image("moose", 'assets/Animals/monkey.png');
+        this.load.image("moose", 'assets/Animals/moose.png');
         //giraffe
         this.load.image('giraffe', 'assets/Animals/giraffe.png');
         //hippo
@@ -231,7 +231,7 @@ export class Start extends Phaser.Scene {
                 const startX = 640 - ((currentEntityCount / 2 - 1) * 200) / 2;
                 for (let i = 0; i < currentEntityCount/2; i++) {
                     for(let j = 0; j < 2; j++) {
-                        const delay = (j * currentEntityCount + i) * 150;
+                        const delay = (j * currentEntityCount/2 + i) * 150;
                         this.time.delayedCall(delay, () => {
                             const currentAnimal = this.enemiesData[randomAnimal];
                             this.animal = new Enemy(this, startX + (i*200), 170 + (j * 150), currentAnimal.texture, currentAnimal.health, currentAnimal.scale, currentAnimal.particleTint, currentAnimal.poopRate, currentAnimal.path);
@@ -248,10 +248,10 @@ export class Start extends Phaser.Scene {
                 }
             } else if (currentFormation == 'V') {
                 var i_other = 1;
-                const startX = 640 - ((currentEntityCount / 2 - 1) * 180) / 2;
+                const startX = 640 - ((currentEntityCount - 1) * 180) / 2;
 
                 for (let i = 0; i < currentEntityCount; i++) {
-                    const delay = (currentEntityCount + i) * 150;
+                    const delay = (currentEntityCount/2 + i) * 150;
                     if(i < Math.floor(currentEntityCount / 2 + 1)) { 
                         this.time.delayedCall(delay, () => {
                             const currentAnimal = this.enemiesData[randomAnimal];
@@ -265,7 +265,7 @@ export class Start extends Phaser.Scene {
                             this.enemies.add(this.animal);
                             i_other++;
 
-                        if(i == currentEntityCount/2 - 1) {
+                        if(i == currentEntityCount - 1) {
                             for (const enemy of this.enemies.getChildren()) {
                                 enemy.startMovement();
                                 this.wavePending = false;
@@ -275,14 +275,14 @@ export class Start extends Phaser.Scene {
                     }
                 }
             } else if (currentFormation == 'staggered') {
-                const startX = 640 - ((currentEntityCount / 2 - 1) * 200) / 2;
 
                 for (let i = 0; i < 2; i++) {
                 const x = i === 0 ? Math.ceil(currentEntityCount/2) : Math.floor(currentEntityCount/2);
+                const startX = 640 - ((x - 1) * 200) / 2;
 
                     for(let j = 0; j < x; j++) {
                         if ( i == 1) {
-                            const delay = (i*currentEntityCount+j) * 150;
+                            const delay = (i*currentEntityCount/2+j) * 150;
                             this.time.delayedCall(delay, () => {
                                 const currentAnimal = this.enemiesData[randomAnimal];
                                 this.animal = new Enemy(this, startX + (j*200), 170 + (i * 150), currentAnimal.texture, currentAnimal.health, currentAnimal.scale, currentAnimal.particleTint, currentAnimal.poopRate, currentAnimal.path);
