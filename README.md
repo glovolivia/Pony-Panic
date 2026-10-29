@@ -47,6 +47,7 @@ Animals spawn in randomized waves with different health, attack rate, formations
 
 - saved high score (saved using localStorage, persists between browser sessions)
 - Title screen with preview (demo, pony shoots and kills enemies), controls and credits
+- Boss fights!
 
 ### Art Assets and Audio
 

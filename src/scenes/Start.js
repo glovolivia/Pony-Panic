@@ -1,6 +1,7 @@
 import { Bullet } from "../gameObjects/bullet.js";
 import { Enemy } from "../gameObjects/enemy.js";
 import { Poop } from "../gameObjects/poop.js";
+import { Boss } from "../gameObjects/boss.js";
 
 export class Start extends Phaser.Scene {
 
@@ -206,7 +207,41 @@ export class Start extends Phaser.Scene {
     }
 
     spawnBoss() {
-        this.spawnWave(); //for debug
+        this.uiBoss = this.add.container(640,400);
+
+        this.spawnBossText = this.add.text(0, -65, 'BEWARE LUIGI',  { fontSize: '100px', fill: '#FFF', align: "center", stroke: "#070706d9", strokeThickness: 3 }).setOrigin(0.5).setShadow(3, 3, '#667580', 4);
+        this.uiBoss.add(this.spawnBossText);
+        this.uiBoss.add(this.add.text(0,65, 'POOPOCALYPSE',  { fontSize: '90px', fill: '#FFF', align: "center", stroke: "#070706d9", strokeThickness: 3 }).setOrigin(0.5).setShadow(3, 3, '#667580', 4));
+        this.uiBoss.setDepth(100);
+        this.tweens.chain({
+            targets: this.uiBoss,
+            tweens: [
+                {
+                y: 360,
+                duration: 300,
+                ease: 'Sine.easeOut',
+                yoyo: false
+                },
+                {
+                scale: 1.2,
+                duration: 400,
+                ease: 'Back.easeOut',
+                yoyo: true,
+                repeat: 10,
+                }
+            ]
+        });
+        this.time.delayedCall(2500, () => {
+            this.uiBoss.destroy();
+        })
+
+        this.wavePending = true;
+
+        this.luigi = new Boss(this, 640, 300, 'Luigi', 'Helpers', 10, 0.75, [0x4B3C36, 0x392B23, 0xE8D9C9], [500, 3000], "birdPath");
+        this.enemies.add(this.luigi);
+        this.luigi.startMovement();
+        this.wavePending = false;
+        console.log(this.luigi.health);
     }
 
     spawnWave() {
@@ -231,7 +266,7 @@ export class Start extends Phaser.Scene {
 
                 }
             }
-            this.waveCount = 1;
+            this.waveCount++;
         } else {
             const animalNames = Object.keys(this.enemiesData);
             const randomAnimal = Phaser.Utils.Array.GetRandom(animalNames);
@@ -523,9 +558,11 @@ export class Start extends Phaser.Scene {
         if(this.enemies.getLength() == 0 && !this.wavePending) {
             this.wavePending = true;
             this.time.delayedCall(2000, () => {
-                if(this.waveCount != 0 && this.waveCount % 5 == 0) {
+                if(this.waveCount != 0 && this.waveCount % 2 == 0) {
                     this.spawnBoss()
+                    this.waveCount++;
                 } else {
+                    console.log(this.waveCount);
                     this.spawnWave();
                 }
             });

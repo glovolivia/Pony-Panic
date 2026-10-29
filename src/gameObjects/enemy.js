@@ -32,7 +32,7 @@ export class Enemy extends Phaser.GameObjects.Sprite {
             if(this.scene.gameEnd) return;
 
             const poop = new Poop(this.scene, this.x, this.y + 50)
-            this.scene.sound.play('poop', { volume: 0.2 });
+            this.scene.sound.play('poop', { volume: 0.4 });
             this.scene.poops.add(poop);
 
 
@@ -67,11 +67,9 @@ export class Enemy extends Phaser.GameObjects.Sprite {
         this.scene.tweens.add({
             targets: this,
             scaleY: this.scale + 0.00001,
-            y: this.y - 5,
             duration: 400,
             ease: 'Sine.easeInOut',
             yoyo: true,
-            repeat: -1
         });
         
     }
@@ -94,9 +92,10 @@ export class Enemy extends Phaser.GameObjects.Sprite {
         }
         
         this.poopTimer.remove();
-        this.scene.sound.play('poop', { volume: 0.9 });
+        this.scene.sound.play('poop', { volume: 0.2 });
         this.destroy();
     }
+
 
     startMovement() {
         const scale = this.scale;
