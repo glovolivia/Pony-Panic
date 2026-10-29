@@ -314,9 +314,15 @@ export class Start extends Phaser.Scene {
 
                             });
                         } else {
+                            
                             const delay = (i* currentEntityCount + j) * 150;
                             this.time.delayedCall(delay, () => {
-                                const currentAnimal = this.enemiesData[randomAnimal];
+                                if (waveName == "chickWave") {
+                                    const chickenChick = Phaser.Utils.Array.GetRandom(["chicken", "chick"]);
+                                    currentAnimal = this.enemiesData[chickenChick];
+                                } else {
+                                    currentAnimal = this.enemiesData[randomAnimal];
+                                }
                                 this.animal = new Enemy(this, startX + (j*200), 170 + (i * 150), currentAnimal.texture, currentAnimal.health, currentAnimal.scale, currentAnimal.particleTint, currentAnimal.poopRate, currentAnimal.path);
                                 this.enemies.add(this.animal);
 
