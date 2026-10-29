@@ -125,6 +125,7 @@ export class Start extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
+        this.input.on('pointermove', p => { if (p.isDown) this.pony.x = p.worldX; });
         
         //Collision
         this.bullets = this.add.group();
