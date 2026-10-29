@@ -187,8 +187,8 @@ export class Enemy extends Phaser.GameObjects.Sprite {
         } else if (this.path == "gridPath") {
             const path = new Phaser.Curves.Path(this.x, this.y);
 
-            path.lineTo(this.x + 300, this.y);
-            path.lineTo(this.x - 300, this.y);
+            path.lineTo(this.x + 200, this.y);
+            path.lineTo(this.x - 200, this.y);
             path.lineTo(this.x, this.y);
 
             const progress = { t: 0 };
