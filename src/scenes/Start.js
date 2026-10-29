@@ -94,6 +94,8 @@ export class Start extends Phaser.Scene {
         this.load.audio('music', 'assets/Audio/music.mp3');
         this.load.audio('poop', 'assets/Audio/pop_.mp3');
         this.load.audio('shoot', 'assets/Audio/swish-4.wav');
+        this.load.audio('takeHit', 'assets/Audio/squeak.wav');
+        this.load.audio('highScore', 'assets/Audio/applause_fireworks.mp3');
     }
 
     create() {
@@ -136,7 +138,7 @@ export class Start extends Phaser.Scene {
         this.input.setDefaultCursor('url("assets/UI Elements/cursorGauntlet_bronze.png") 0 0, auto');
 
         this.input.on('pointerdown', (pointer) => { this.input.setDefaultCursor('url("assets/UI Elements/cursorGauntlet_bronze-click.png") 0 0, auto');
-            this.sound.play('mouseClick', { volume: 0.8 });
+            this.sound.play('mouseClick', { volume: 1 });
             console.log(`X: ${pointer.x}, Y: ${pointer.y}`);
          });
         this.input.on('pointerup', () => { this.input.setDefaultCursor('url("assets/UI Elements/cursorGauntlet_bronze.png") 0 0, auto'); });
@@ -368,6 +370,7 @@ export class Start extends Phaser.Scene {
             //console.log("detected");
             this.takingDamage = true;
             poop.destroy();
+            this.sound.play('takeHit', {volume: 0.6});
             this.ponyHealth -= 1;
 
             for(var i = 0; i < this.hearts.length; i++) {
@@ -545,6 +548,7 @@ export class Start extends Phaser.Scene {
                 this.highS = this.add.text(0, -65, 'NEW HIGH SCORE!',  { fontSize: '100px', fill: '#FFF', align: "center", stroke: "#070706d9", strokeThickness: 3 }).setOrigin(0.5).setShadow(3, 3, '#667580', 4);
                 this.ui.add(this.highS);
                 this.ui.add(this.add.text(0,65, this.score,  { fontSize: '100px', fill: '#FFF', align: "center", stroke: "#070706d9", strokeThickness: 3 }).setOrigin(0.5).setShadow(3, 3, '#667580', 4));
+                
                 this.tweens.chain({
                     targets: this.ui,
                     tweens: [
