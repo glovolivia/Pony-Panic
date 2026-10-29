@@ -42,6 +42,9 @@ export class Enemy extends Phaser.GameObjects.Sprite {
         if(this.idleTween) {
             this.idleTween.stop();
         }
+        if(this.idleTweenNull) {
+            this.idleTweenNull.stop();
+        }
         this.scene.tweens.add({
             targets: this,
             scaleX: this.scale + 0.2,
@@ -87,7 +90,7 @@ export class Enemy extends Phaser.GameObjects.Sprite {
         const scale = this.scale;
 
         if(this.path == null) {
-            this.idleTween = this.scene.tweens.add({
+            this.idleTweenNull = this.scene.tweens.add({
             targets: this,
             scaleY: scale + 0.05,
             y: this.y - 20,
@@ -104,6 +107,22 @@ export class Enemy extends Phaser.GameObjects.Sprite {
                 yoyo: true,
                 repeat: -1
             });
+        } else if (path == "V") {
+
+        } else if (path == "staggered") {
+
+        } else if (path == "grid") {
+
+        }
+        else {
+            this.idleTween = this.scene.tweens.add({
+            targets: this,
+            scaleY: scale + 0.05,
+            duration: 400,
+            ease: 'Sine.easeInOut',
+            yoyo: true,
+            repeat: -1
+        });
         }
     }
 

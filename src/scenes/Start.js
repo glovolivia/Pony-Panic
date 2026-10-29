@@ -74,6 +74,10 @@ export class Start extends Phaser.Scene {
         //explosion
         this.load.image('crumb', 'assets/UI Elements/buttonRound_grey.png');
 
+        //Boss fight 
+        this.load.image('Luigi', 'assets/Animals/Luigi_original_transparent.png');
+        this.load.image('Helpers', 'assets/Animals/Luigi.png');
+
 
         //Poop related
         this.load.image('poop', 'assets/UI Elements/meteorBrown_big1.png');
@@ -90,6 +94,7 @@ export class Start extends Phaser.Scene {
     create() {
         //Background
         this.add.image(640,360, 'background').setDisplaySize(1280,720);
+
 
         //pony
         this.pony = this.physics.add.sprite(640,580, 'pony').setScale(0.7);
@@ -149,6 +154,7 @@ export class Start extends Phaser.Scene {
         }).setOrigin(0.4, 0);
 
         this.gameEnd = false;
+        this.takingDamage = false;
 
         //demo settings
 
@@ -182,7 +188,14 @@ export class Start extends Phaser.Scene {
         this.waveData = this.cache.json.get('waveTypes');
         this.waveCount = 0;
 
-        this.spawnWave();
+        if(this.waveCount != 0 && this.waveCount % 5 == 0) {
+            this.spawnBoss()
+        } else {
+            this.spawnWave();
+        }
+    }
+
+    spawnBoss() {
 
     }
 
@@ -234,7 +247,7 @@ export class Start extends Phaser.Scene {
                         const delay = (j * currentEntityCount/2 + i) * 150;
                         this.time.delayedCall(delay, () => {
                             const currentAnimal = this.enemiesData[randomAnimal];
-                            this.animal = new Enemy(this, startX + (i*200), 170 + (j * 150), currentAnimal.texture, currentAnimal.health, currentAnimal.scale, currentAnimal.particleTint, currentAnimal.poopRate, currentAnimal.path);
+                            this.animal = new Enemy(this, startX + (i*220), 170 + (j * 150), currentAnimal.texture, currentAnimal.health, currentAnimal.scale, currentAnimal.particleTint, currentAnimal.poopRate, currentAnimal.path);
                             this.enemies.add(this.animal);
 
                             if(i == currentEntityCount/2-1 && j == 1) {
@@ -308,6 +321,7 @@ export class Start extends Phaser.Scene {
                     }
                 }
             }
+            this.waveCount++;
         }
     }
 
@@ -330,6 +344,7 @@ export class Start extends Phaser.Scene {
             poop.destroy();
         } else {
             //console.log("detected");
+            this.takingDamage = true;
             poop.destroy();
             this.ponyHealth -= 1;
 
@@ -373,7 +388,7 @@ export class Start extends Phaser.Scene {
                         this.idleTween.resume();
                     }
                 });
-            this.time.delayedCall(300, () => {this.pony.clearTint()});
+            this.time.delayedCall(300, () => {this.pony.clearTint(), this.takingDamage = false;});
     }
     }
 
@@ -405,7 +420,7 @@ export class Start extends Phaser.Scene {
                 }
 
                 //shooting
-                if (Phaser.Input.Keyboard.JustDown(this.cursor.space)) {
+                if (Phaser.Input.Keyboard.JustDown(this.cursor.space) && !this.takingDamage) {
                     //console.log("shoot shoot");
                     //spawn bullet using new 
                     this.bullet = new Bullet(this, this.pony.x, this.pony.y-40);

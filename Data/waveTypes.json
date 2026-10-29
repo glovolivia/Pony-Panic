@@ -2,7 +2,7 @@
     "regularWave": {
             "animals": ["zebra", "pig", "cow", "panda", "monkey"],
             "formation": "grid",
-            "entityCount": 12
+            "entityCount": 10
     },
     "heavyWave": {
             "animals": ["buffalo", "hippo", "rhino", "moose", "walrus"],
