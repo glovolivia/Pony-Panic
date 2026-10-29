@@ -224,7 +224,7 @@ export class Start extends Phaser.Scene {
             const waveNames = Object.keys(this.waveData);
             let currentFormation;
             let currentEntityCount;
-            let waveName;
+            let waveName = 'chickWave';
 
             for(const name of waveNames) {
                 const wave = this.waveData[name];
