@@ -5,7 +5,7 @@
 **ID:** 2157181
 **Date:** October 2026
 
-Play the Game: [LIVE DEMO]https://glovolivia.github.io/Pony-Panic/
+Play the Game: [LIVE DEMO](https://glovolivia.github.io/Pony-Panic/)
 
 ### Description
 A classics gallery shooter inspired by games such as ***Chicken Invaders***. The player becomes a cute horse, on a mission to feed as many animals as they can! But be careful... since they eat more they also poop more often!
