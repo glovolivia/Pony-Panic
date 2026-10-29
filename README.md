@@ -51,4 +51,8 @@ Animals spawn in randomized waves with different health, attack rate, formations
 ### Art Assets and Audio
 
 Art assets are from Kenney
-Audio assets are from OpenGameArt
+Audio assets are from OpenGameArt 
+
+Background music: 
+“Porch Swing Days - slower” by Kevin MacLeod (incompetech.com)
+Licensed under CC BY 4.0: https://creativecommons.org/licenses/by/4.0/

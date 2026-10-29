@@ -26,9 +26,9 @@ export class GameOver extends Phaser.Scene {
         this.input.on('pointerup', () => { this.input.setDefaultCursor('url("assets/UI Elements/cursorGauntlet_bronze.png") 0 0, auto'); });
 
         //buttons
-        this.backButton = setupButton(this, 'back', false, 50, 45, 1, 'button', 'button_pressed', 'Menu');
-        this.yesButton = setupButton(this, false, "YES", 440, 490, 1.8, "button_long", 'button_long_pressed', 'Start');
-        this.noButton = setupButton(this, false, "NO", 840, 490, 1.8, "button_long", 'button_long_pressed', 'Menu');
+        this.backButton = setupButton(this, 'back', false, 50, 45, 1, 'button', 'button_pressed', 'Menu', 'click');
+        this.yesButton = setupButton(this, false, "YES", 440, 490, 1.8, "button_long", 'button_long_pressed', 'Start', 'click');
+        this.noButton = setupButton(this, false, "NO", 840, 490, 1.8, "button_long", 'button_long_pressed', 'Menu', 'click');
 
         this.ui.add(this.backButton);
         this.ui.add(this.yesButton);

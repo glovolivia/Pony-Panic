@@ -88,12 +88,23 @@ export class Start extends Phaser.Scene {
         this.load.image('splash4', 'assets/PoopSplashes/splat18.png');
         this.load.image('splash5', 'assets/PoopSplashes/splat20.png');
         
-        
+        //Audio
+        this.load.audio('click', 'assets/Audio/click1.wav');
+        this.load.audio("mouseClick", 'assets/Audio/mouseclick1.wav');
+        this.load.audio('music', 'assets/Audio/music.mp3');
+        this.load.audio('poop', 'assets/Audio/pop_.mp3');
+        this.load.audio('shoot', 'assets/Audio/swish-4.wav');
     }
 
     create() {
         //Background
         this.add.image(640,360, 'background').setDisplaySize(1280,720);
+
+        //Music
+        if(!this.sound.get('music')) {
+            this.music = this.sound.add('music', { loop: true, volume: 0.2 });
+            this.music.play();
+        }
 
 
         //pony
@@ -125,6 +136,7 @@ export class Start extends Phaser.Scene {
         this.input.setDefaultCursor('url("assets/UI Elements/cursorGauntlet_bronze.png") 0 0, auto');
 
         this.input.on('pointerdown', (pointer) => { this.input.setDefaultCursor('url("assets/UI Elements/cursorGauntlet_bronze-click.png") 0 0, auto');
+            this.sound.play('mouseClick', { volume: 0.8 });
             console.log(`X: ${pointer.x}, Y: ${pointer.y}`);
          });
         this.input.on('pointerup', () => { this.input.setDefaultCursor('url("assets/UI Elements/cursorGauntlet_bronze.png") 0 0, auto'); });
@@ -434,6 +446,7 @@ export class Start extends Phaser.Scene {
                     //console.log("shoot shoot");
                     //spawn bullet using new 
                     this.bullet = new Bullet(this, this.pony.x, this.pony.y-40);
+                    this.sound.play('shoot', { volume: 0.8 });
                     this.bullets.add(this.bullet);
                     if(!this.isShooting) {
                         this.isShooting = true;

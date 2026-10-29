@@ -25,7 +25,7 @@ export class Credits extends Phaser.Scene {
         });
         this.input.on('pointerup', () => { this.input.setDefaultCursor('url("assets/UI Elements/cursorGauntlet_bronze.png") 0 0, auto'); });
             
-        this.backButton = setupButton(this, 'back', false, 50, 45, 1, 'button', 'button_pressed', 'Menu');
+        this.backButton = setupButton(this, 'back', false, 50, 45, 1, 'button', 'button_pressed', 'Menu', 'click');
 
         this.ui.add(this.add.text(640, 120, "Credits", { fontSize: '128px', fill: '#FFF', align: "center", stroke: "#070706d9", strokeThickness: 3 }).setOrigin(0.5).setShadow(3, 3, '#667580', 4));
         this.ui.add(this.add.text(640, 240, "Game Design & Programming", { fontSize: '42px', fill: '#FFF', align: "center", stroke: "#070706d9", strokeThickness: 3 }).setOrigin(0.5).setShadow(3, 3, '#667580', 4));

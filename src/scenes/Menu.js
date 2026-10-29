@@ -18,6 +18,8 @@ export class Menu extends Phaser.Scene {
         this.load.image("button_long_pressed", 'assets/UI Elements/buttonLong_brown_pressed.png');
 
         this.load.image('preview', 'assets/UI Elements/panelInset_brown.png');
+
+        this.load.audio('music', 'assets/Audio/music.mp3');
     }
 
     create() {
@@ -26,7 +28,12 @@ export class Menu extends Phaser.Scene {
         this.add.rectangle(640, 360, 1280, 720, 0x000000, 0.1);
         this.scene.launch('Start', { isDemo: true});
         this.scene.bringToTop('Start');
-       
+
+        //music code
+        if(!this.sound.get('music')) {
+            this.music = this.sound.add('music', { loop: true, volume: 0.2 });
+            this.music.play();
+        }
 
         this.ui = this.add.container(0,0);
         
@@ -43,13 +50,13 @@ export class Menu extends Phaser.Scene {
         this.ui.add(this.add.text(650, 180, 'PONY PANIC', { fontSize: '156px', fill: '#FFF', stroke: "#070706d9", strokeThickness: 3 }).setOrigin(0.5).setShadow(3, 3, '#667580', 4));
         
         //buttons
-        this.buttonStart = setupButton(this, false, 'START', 930, 330, 2, 'button_long', 'button_long_pressed', 'Start');
+        this.buttonStart = setupButton(this, false, 'START', 930, 330, 2, 'button_long', 'button_long_pressed', 'Start', 'click');
         this.ui.add(this.buttonStart);
         //button for Credit scene
-        this.buttonCC = setupButton(this, false, 'CONTROLS', 930, 450, 2, 'button_long', 'button_long_pressed', 'Controls');
+        this.buttonCC = setupButton(this, false, 'CONTROLS', 930, 450, 2, 'button_long', 'button_long_pressed', 'Controls', 'click');
         this.ui.add(this.buttonCC);
         //button for controls
-        this.buttonC = setupButton(this, false, 'CREDITS', 930, 560, 2, 'button_long', 'button_long_pressed', 'Credits');
+        this.buttonC = setupButton(this, false, 'CREDITS', 930, 560, 2, 'button_long', 'button_long_pressed', 'Credits', 'click');
         this.ui.add(this.buttonC);
         this.textures.get('preview').setFilter(Phaser.Textures.FilterMode.NEAREST);
         this.ui.add(this.add.rectangle(445, 445, 500, 325, 0x96734e).setAlpha(0.5));

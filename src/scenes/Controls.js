@@ -30,7 +30,7 @@ export class Controls extends Phaser.Scene {
         });
         this.input.on('pointerup', () => { this.input.setDefaultCursor('url("assets/UI Elements/cursorGauntlet_bronze.png") 0 0, auto'); });
             
-        this.backButton = setupButton(this, 'back', false, 50, 45, 1, 'button', 'button_pressed', 'Menu');
+        this.backButton = setupButton(this, 'back', false, 50, 45, 1, 'button', 'button_pressed', 'Menu', 'click');
 
         //graphics
         this.ui.add(this.add.image(214,264, 'left').setTint(0x667580).setAlpha(0.5).setScale(1));

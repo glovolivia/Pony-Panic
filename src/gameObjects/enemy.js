@@ -32,7 +32,9 @@ export class Enemy extends Phaser.GameObjects.Sprite {
             if(this.scene.gameEnd) return;
 
             const poop = new Poop(this.scene, this.x, this.y + 50)
+            this.scene.sound.play('poop', { volume: 0.7 });
             this.scene.poops.add(poop);
+
 
             this.scene.tweens.add({
                 targets: this,

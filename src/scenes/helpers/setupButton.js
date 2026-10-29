@@ -1,4 +1,4 @@
-export function setupButton(scene, buttonImageTXT, buttonText, x, y, scale, normalTXT, pressedTXT, onClick) {
+export function setupButton(scene, buttonImageTXT, buttonText, x, y, scale, normalTXT, pressedTXT, onClick, sound) {
         const button = scene.add.image(x,y, normalTXT).setScale(scale);
         const buttonY = button.y;
         let overlay;
@@ -25,6 +25,7 @@ export function setupButton(scene, buttonImageTXT, buttonText, x, y, scale, norm
         });
 
         button.on('pointerdown', () => {
+            scene.sound.play(sound);
             button.setTexture(pressedTXT);
         });
 
