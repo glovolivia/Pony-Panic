@@ -82,18 +82,20 @@ export class Boss extends Phaser.GameObjects.Sprite {
         }
         this.scene.tweens.add({
             targets: this,
-            scaleX: this.scale + 0.1,
-            scaleY: this.scale + 0.1,
+            scaleX: this.scale + 0.02,
+            scaleY: this.scale + 0.02,
             ease: 'Back.easeOut',
             duration: 250,
             yoyo: false,
-        });
-        this.scene.tweens.add({
-            targets: this,
-            scaleY: this.scale + 0.00001,
-            duration: 400,
-            ease: 'Sine.easeInOut',
-            yoyo: true,
+            onComplete: () => {
+                this.scene.tweens.add({
+                targets: this,
+                scaleY: this.scale + 0.00001,
+                duration: 400,
+                ease: 'Sine.easeInOut',
+                yoyo: true,
+            });
+            }
         });
         
     }
@@ -126,11 +128,9 @@ export class Boss extends Phaser.GameObjects.Sprite {
             this.idleTweenNull = this.scene.tweens.add({
             targets: this,
             scaleY: scale + 0.05,
-            y: this.y - 20,
             duration: 400,
             ease: 'Sine.easeInOut',
             yoyo: true,
-            repeat: -1
         });
             this.scene.tweens.add({
                 targets: this,
@@ -138,7 +138,6 @@ export class Boss extends Phaser.GameObjects.Sprite {
                 duration: 800,
                 ease: 'Sine.easeInOut',
                 yoyo: true,
-                repeat: -1
             });
         } else if (this.path == "birdPath") {
             const path = new Phaser.Curves.Path(this.x, this.y);
@@ -167,7 +166,7 @@ export class Boss extends Phaser.GameObjects.Sprite {
                     this.setPosition(point.x, point.y);
                 }
             });
-            this.scene.tweens.add({
+            this.idleTween = this.scene.tweens.add({
                 targets: this,
                 scaleY: scale + 0.05,
                 duration: 400,
