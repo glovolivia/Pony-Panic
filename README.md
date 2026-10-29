@@ -1,9 +1,9 @@
 # 🐴 Pony Panic
 
 
-**Student:** Oliwia Glowczynska
-**ID:** 2157181
-**Date:** October 2026
+**Student:** Oliwia Glowczynska</br>
+**ID:** 2157181</br>
+**Date:** October 2026</br>
 
 Play the Game: [LIVE DEMO](https://glovolivia.github.io/Pony-Panic/)
 
