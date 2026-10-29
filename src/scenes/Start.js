@@ -188,15 +188,11 @@ export class Start extends Phaser.Scene {
         this.waveData = this.cache.json.get('waveTypes');
         this.waveCount = 0;
 
-        if(this.waveCount != 0 && this.waveCount % 5 == 0) {
-            this.spawnBoss()
-        } else {
-            this.spawnWave();
-        }
+        this.spawnWave();
     }
 
     spawnBoss() {
-
+        this.spawnWave(); //for debug
     }
 
     spawnWave() {
@@ -228,9 +224,11 @@ export class Start extends Phaser.Scene {
             const waveNames = Object.keys(this.waveData);
             let currentFormation;
             let currentEntityCount;
+            let waveName;
 
             for(const name of waveNames) {
                 const wave = this.waveData[name];
+                waveName = name;
 
                 if(wave.animals.includes(randomAnimal)) {
                     currentFormation = wave.formation;
@@ -292,12 +290,18 @@ export class Start extends Phaser.Scene {
                 for (let i = 0; i < 2; i++) {
                 const x = i === 0 ? Math.ceil(currentEntityCount/2) : Math.floor(currentEntityCount/2);
                 const startX = 640 - ((x - 1) * 200) / 2;
+                let currentAnimal;
 
                     for(let j = 0; j < x; j++) {
                         if ( i == 1) {
                             const delay = (i*currentEntityCount/2+j) * 150;
                             this.time.delayedCall(delay, () => {
-                                const currentAnimal = this.enemiesData[randomAnimal];
+                                if (waveName == "chickWave") {
+                                    const chickenChick = Phaser.Utils.Array.GetRandom(["chicken", "chick"]);
+                                    currentAnimal = this.enemiesData[chickenChick];
+                                } else {
+                                    currentAnimal = this.enemiesData[randomAnimal];
+                                }
                                 this.animal = new Enemy(this, startX + (j*200), 170 + (i * 150), currentAnimal.texture, currentAnimal.health, currentAnimal.scale, currentAnimal.particleTint, currentAnimal.poopRate, currentAnimal.path);
                                 this.enemies.add(this.animal);
 
@@ -497,7 +501,11 @@ export class Start extends Phaser.Scene {
         if(this.enemies.getLength() == 0 && !this.wavePending) {
             this.wavePending = true;
             this.time.delayedCall(2000, () => {
-                this.spawnWave();
+                if(this.waveCount != 0 && this.waveCount % 5 == 0) {
+                    this.spawnBoss()
+                } else {
+                    this.spawnWave();
+                }
             });
         }
 

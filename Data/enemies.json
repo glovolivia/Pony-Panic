@@ -30,7 +30,7 @@
         "scale": 0.6,
         "particleTint": [15658734, 15578368, 14167552],
         "poopRate": [1000, 3000],
-        "path": null
+        "path": "birdPath"
     },
     "chick": {
         "texture": "chick",
@@ -38,7 +38,7 @@
         "scale": 0.4,
         "particleTint": [16304384, 15633152, 16777215],
         "poopRate": [1000, 2000],
-        "path": null
+        "path": "birdPath"
     },
     "goat": {
         "texture": "goat",
@@ -46,7 +46,7 @@
         "scale": 0.82,
         "particleTint": [11102008, 15582376, 6634531],
         "poopRate": [1000, 6000],
-        "path": null
+        "path": "staggeredPath"
     },
     "duck": {
         "texture": "duck",
@@ -54,7 +54,7 @@
         "scale": 0.65,
         "particleTint": [3066993, 15987699, 16763904],
         "poopRate": [1000, 4000],
-        "path": null
+        "path": "VPath"
     },
     "buffalo": {
         "texture": "buffalo",
@@ -62,7 +62,7 @@
         "scale": 0.84,
         "particleTint": [6242861, 10577465, 15453879],
         "poopRate": [1000, 7000],
-        "path": null
+        "path": "gridPath"
     },
     "monkey": {
         "texture": "monkey",
@@ -78,7 +78,7 @@
         "scale": 0.83,
         "particleTint": [16304384, 15633152, 16777215],
         "poopRate": [1000, 8000],
-        "path": null
+        "path": "gridPath"
     },
     "giraffe": {
         "texture": "giraffe",
@@ -86,7 +86,7 @@
         "scale": 0.79,
         "particleTint": [16763904, 13805568, 9992448],
         "poopRate": [1000, 5000],
-        "path": null
+        "path": "staggeredPath"
     },
     "hippo": {
         "texture": "hippo",
@@ -94,7 +94,7 @@
         "scale": 0.9,
         "particleTint": [5410011, 4290754, 5938163],
         "poopRate": [1000, 9000],
-        "path": null
+        "path": "gridPath"
     },
     "panda": {
         "texture": "panda",
@@ -110,7 +110,7 @@
         "scale": 0.65,
         "particleTint": [3562086, 14020343, 1913144],
         "poopRate": [1000, 3500],
-        "path": null
+        "path": "VPath"
     },
     "rabbit": {
         "texture": "rabbit",
@@ -118,7 +118,7 @@
         "scale": 0.63,
         "particleTint": [13816016, 8748670, 16777215],
         "poopRate": [1000, 3000],
-        "path": null
+        "path": "staggeredPath"
     }, 
     "rhino": {
         "texture": "rhino",
@@ -126,7 +126,7 @@
         "scale": 0.88,
         "particleTint": [13816016, 12433078, 8748670],
         "poopRate": [1000, 10000],
-        "path": null
+        "path": "gridPath"
     },
     "sloth": {
         "texture": "sloth",
@@ -142,7 +142,7 @@
         "scale": 0.83,
         "particleTint": [9989196, 6440496, 11632216],
         "poopRate": [1000, 8000],
-        "path": null
+        "path": "gridPath"
     },
     "parrot": {
         "texture": "parrot",
@@ -150,7 +150,7 @@
         "scale": 0.68,
         "particleTint": [13774855, 16763904, 6135027],
         "poopRate": [1000, 3000],
-        "path": null
+        "path": "VPath"
     }
     
 

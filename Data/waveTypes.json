@@ -16,8 +16,8 @@
     },
     "chickWave": {
             "animals": ["chicken", "chick"],
-            "formation": "grid",
-            "entityCount": 6
+            "formation": "staggered",
+            "entityCount": 4
     },
     "otherWave": {
             "animals": ["goat","giraffe", "rabbit", "sloth"],
