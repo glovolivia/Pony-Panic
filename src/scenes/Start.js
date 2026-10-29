@@ -125,7 +125,7 @@ export class Start extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
-        if (!this.sys.game.device.os.desktop) this.input.on('pointermove', p => { if (p.isDown) this.pony.x = p.worldX; });
+        if (navigator.maxTouchPoints > 0) this.input.on('pointermove', p => { if (p.isDown) this.pony.setX(p.worldX); });
         
         //Collision
         this.bullets = this.add.group();
