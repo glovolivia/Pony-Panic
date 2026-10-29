@@ -548,7 +548,7 @@ export class Start extends Phaser.Scene {
                 this.highS = this.add.text(0, -65, 'NEW HIGH SCORE!',  { fontSize: '100px', fill: '#FFF', align: "center", stroke: "#070706d9", strokeThickness: 3 }).setOrigin(0.5).setShadow(3, 3, '#667580', 4);
                 this.ui.add(this.highS);
                 this.ui.add(this.add.text(0,65, this.score,  { fontSize: '100px', fill: '#FFF', align: "center", stroke: "#070706d9", strokeThickness: 3 }).setOrigin(0.5).setShadow(3, 3, '#667580', 4));
-                
+                this.celeb = this.sound.play("highScore", {volume: 0.8});
                 this.tweens.chain({
                     targets: this.ui,
                     tweens: [
@@ -568,7 +568,9 @@ export class Start extends Phaser.Scene {
                     ]
                 });
 
-                this.time.delayedCall(6000, () => {this.scene.start('GameOver')});
+                this.time.delayedCall(6000, () => {this.scene.start('GameOver')
+                    this.celeb.destroy();
+                });
             } else {
                 this.time.delayedCall(1000, () => {this.scene.start('GameOver')});
             }
