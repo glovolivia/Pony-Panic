@@ -125,6 +125,7 @@ export class Start extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
+    
         
         //Collision
         this.bullets = this.add.group();
@@ -456,6 +457,10 @@ export class Start extends Phaser.Scene {
         const speed = 500;
 
         if (this.gameEnd) return;
+        
+        if (!this.isDemo && navigator.maxTouchPoints > 0 && this.input.activePointer.isDown) {
+            this.pony.setX(Phaser.Math.Clamp(this.input.activePointer.x, 60, 1220));
+        }
 
         //movement 
         if(this.isDemo) {
@@ -480,7 +485,7 @@ export class Start extends Phaser.Scene {
                 }
 
                 //shooting
-                if (Phaser.Input.Keyboard.JustDown(this.cursor.space) && !this.takingDamage) {
+                if ((Phaser.Input.Keyboard.JustDown(this.cursor.space) || (navigator.maxTouchPoints > 0 && this.input.activePointer.isDown && !this.isShooting)) && !this.takingDamage) {
                     //console.log("shoot shoot");
                     //spawn bullet using new 
                     this.bullet = new Bullet(this, this.pony.x, this.pony.y-40);
