@@ -237,7 +237,7 @@ export class Start extends Phaser.Scene {
 
         this.wavePending = true;
 
-        this.luigi = new Boss(this, 640, 300, 'Luigi', 'Helpers', 10, 0.75, [0x4B3C36, 0x392B23, 0xE8D9C9], [500, 3000], "birdPath");
+        this.luigi = new Boss(this, 640, 300, 'Luigi', 'Helpers', 50, 0.75, [0x4B3C36, 0x392B23, 0xE8D9C9], [500, 5000], "birdPath");
         this.enemies.add(this.luigi);
         this.luigi.startMovement();
         this.wavePending = false;
@@ -558,7 +558,7 @@ export class Start extends Phaser.Scene {
         if(this.enemies.getLength() == 0 && !this.wavePending) {
             this.wavePending = true;
             this.time.delayedCall(2000, () => {
-                if(this.waveCount != 0 && this.waveCount % 2 == 0) {
+                if(this.waveCount != 0 && this.waveCount % 5 == 0) {
                     this.spawnBoss()
                     this.waveCount++;
                 } else {
