@@ -88,6 +88,7 @@ export class Boss extends Phaser.GameObjects.Sprite {
             duration: 250,
             yoyo: false,
             onComplete: () => {
+                if (!this.scene || !this.active) return;
                 this.scene.tweens.add({
                 targets: this,
                 scaleY: this.scale + 0.00001,
@@ -118,6 +119,7 @@ export class Boss extends Phaser.GameObjects.Sprite {
         }
         
         this.poopTimer.remove();
+        this.scene.tweens.killTweensOff(this);
         this.destroy();
     }
 
